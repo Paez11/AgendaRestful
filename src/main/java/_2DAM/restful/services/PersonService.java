@@ -42,7 +42,7 @@ public class PersonService {
      * @param person Person
      * @return Person
      */
-    public Person createOrUpdate(Person person) {
+    public Person createOrUpdatePerson(Person person) {
         if(person.getId()!=null) {
             //update
             Optional<Person> p = personRepository.findById(person.getId());
@@ -63,7 +63,7 @@ public class PersonService {
      * Delete person by id if exists or throw RecordNotFoundException
      * @param id Person id
      */
-    public void deleteNoteById(Long id) {
+    public void deletePersonById(Long id) {
         Optional<Person> p = personRepository.findById(id);
         if(p.isPresent()) {
             personRepository.deleteById(id);
