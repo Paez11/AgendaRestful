@@ -12,6 +12,7 @@ public class Contact implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson")
