@@ -15,7 +15,7 @@ public class Contact implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPerson")
+    @JoinTable(name = "person", joinColumns = @JoinColumn(name = "idPerson"))
     private Person person;
     @Column(name = "phoneNumber")
     private int phoneNumber;
