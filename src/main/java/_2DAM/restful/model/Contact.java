@@ -13,7 +13,7 @@ public class Contact implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson")
     private Person person;
@@ -27,10 +27,10 @@ public class Contact implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public Person getPerson() {
