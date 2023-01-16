@@ -2,7 +2,9 @@ package _2DAM.restful.services;
 
 import _2DAM.restful.exceptions.RecordNotFoundException;
 import _2DAM.restful.model.Contact;
+import _2DAM.restful.model.Person;
 import _2DAM.restful.repository.ContactRepository;
+import _2DAM.restful.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,17 @@ public class ContactService {
     @Autowired
     ContactRepository contactRepository;
 
+    @Autowired
+    PersonRepository personRepository;
+
     /**
      * Get all contacts
      * @return List of contacts
      */
-    public List<Contact> getAllContacts() {
+    public List<Contact> getAllContacts(long id) {
+        if (!personRepository.existsById(id)){
+            throw new RecordNotFoundException("Not found person with id ", personRepository);
+        }
         return contactRepository.findAll();
     }
 
