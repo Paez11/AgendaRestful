@@ -20,7 +20,6 @@ public class Person implements Serializable {
     @Column(name = "surname")
     private String surname;
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "contact", joinColumns = @JoinColumn(name = "id"))
     private List<Contact> contacts;
 
     public Person() {

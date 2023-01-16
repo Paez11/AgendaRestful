@@ -14,8 +14,8 @@ public class Contact implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "person", joinColumns = @JoinColumn(name = "idPerson"))
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idPerson", referencedColumnName = "id", nullable = false)
     private Person person;
     @Column(name = "phoneNumber")
     private int phoneNumber;
