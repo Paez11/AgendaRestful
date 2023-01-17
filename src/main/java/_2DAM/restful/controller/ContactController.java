@@ -16,12 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/schedule")
 public class ContactController {
-
-    @Autowired
     ContactService contactService;
+    PersonService personService;
 
     @Autowired
-    PersonService personService;
+    public ContactController(ContactService contactService, PersonService personService) {
+        this.contactService = contactService;
+        this.personService = personService;
+    }
 
     @GetMapping("/contacts")
     public ResponseEntity<List<Contact>> getAllContactsById(){
@@ -30,20 +32,20 @@ public class ContactController {
     }
 
     @GetMapping("/contacts/{id}")
-    public ResponseEntity<Contact> getContactById(@PathVariable long id){
+    public ResponseEntity<Contact> getContactById(@PathVariable Long id){
         Contact contact = contactService.getContactById(id);
         return new ResponseEntity<>(contact,new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Contact> createContact(@RequestBody Contact contact){
-        Contact created = contactService.createOrUpdateContact(contact);
+    @PostMapping("/person/{id}/contacts")
+    public ResponseEntity<Contact> createContact(@RequestBody Contact contact,@PathVariable(value = "id") Long personId){
+        Contact created = contactService.createOrUpdateContact(contact,personId);
         return new ResponseEntity<>(created, new HttpHeaders(), HttpStatus.CREATED);
     }
     @PutMapping("/contacts/{id}")
-    public ResponseEntity<Contact> UpdateContact(@RequestBody Long id) throws RecordNotFoundException {
-       Contact update = getContactById(id).getBody();
-       return new ResponseEntity<>(update,new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<Contact> UpdateContact(@PathVariable(value = "id") Long id){
+        Contact update = contactService.updateContact(id);
+        return new ResponseEntity<>(update, new HttpHeaders(), HttpStatus.OK);
     }
 
     @DeleteMapping("/contacts/{id}")

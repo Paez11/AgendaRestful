@@ -2,6 +2,7 @@ package _2DAM.restful.controller;
 
 import _2DAM.restful.exceptions.RecordNotFoundException;
 import _2DAM.restful.model.Person;
+import _2DAM.restful.services.ContactService;
 import _2DAM.restful.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,8 +16,13 @@ import java.util.List;
 @RequestMapping("/schedule")
 public class PersonController {
 
+    private PersonService personService;
+    private ContactService contactService;
     @Autowired
-    PersonService personService;
+    public PersonController(PersonService personService, ContactService contactService){
+        this.contactService = contactService;
+        this.personService = personService;
+    }
 
     /**
      * Get all persons
