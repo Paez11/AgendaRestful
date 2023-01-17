@@ -1,5 +1,7 @@
 package _2DAM.restful.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,10 +16,11 @@ public class Contact implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson", referencedColumnName = "id", nullable = false)
     private Person person;
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private int phoneNumber;
 
     public Contact() {
