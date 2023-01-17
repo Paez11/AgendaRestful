@@ -2,6 +2,7 @@ package _2DAM.restful.controller;
 
 import _2DAM.restful.exceptions.RecordNotFoundException;
 import _2DAM.restful.model.Contact;
+import _2DAM.restful.model.Person;
 import _2DAM.restful.services.ContactService;
 import _2DAM.restful.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/schedule")
 public class ContactController {
 
     @Autowired
@@ -22,9 +23,9 @@ public class ContactController {
     @Autowired
     PersonService personService;
 
-    @GetMapping("persons/{id}/contacts")
-    public ResponseEntity<List<Contact>> getAllContactsById(@PathVariable(value = "id_person")long personId){
-        List<Contact> result = contactService.getAllContacts(personId);
+    @GetMapping("/contacts")
+    public ResponseEntity<List<Contact>> getAllContactsById(){
+        List<Contact> result = contactService.getAllContacts();
         return new ResponseEntity<>(result,new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -35,10 +36,14 @@ public class ContactController {
     }
 
     @PostMapping
-    @PutMapping
-    public ResponseEntity<Contact> createOrUpdate(@RequestBody Contact contact) throws RecordNotFoundException {
+    public ResponseEntity<Contact> createContact(@RequestBody Contact contact){
         Contact created = contactService.createOrUpdateContact(contact);
         return new ResponseEntity<>(created, new HttpHeaders(), HttpStatus.CREATED);
+    }
+    @PutMapping("/contacts/{id}")
+    public ResponseEntity<Contact> UpdateContact(@RequestBody Long id) throws RecordNotFoundException {
+       Contact update = getContactById(id).getBody();
+       return new ResponseEntity<>(update,new HttpHeaders(), HttpStatus.OK);
     }
 
     @DeleteMapping("/contacts/{id}")
