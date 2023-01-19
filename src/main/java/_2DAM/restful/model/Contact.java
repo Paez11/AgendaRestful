@@ -2,6 +2,7 @@ package _2DAM.restful.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class Contact implements Serializable {
     private Long id;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPerson", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idPerson", referencedColumnName = "id", nullable = false, unique = true)
     private Person person;
     @Column(name = "phone_number")
     private int phoneNumber;
@@ -61,12 +62,13 @@ public class Contact implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Contact)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return getId() == contact.getId();
+        return phoneNumber == contact.phoneNumber && Objects.equals(id, contact.id) && Objects.equals(person, contact.person);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id, person, phoneNumber);
     }
 }
