@@ -63,10 +63,10 @@ public class PersonController {
      * @throws RecordNotFoundException
      */
     @PutMapping("/person/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable("id") Long id) throws RecordNotFoundException {
-        ResponseEntity<Person> personEntity = getPersonById(id);
-        Person person = personService.createOrUpdatePerson(personEntity.getBody());
-        return new ResponseEntity<Person>(person, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<Person> updatePerson(@RequestBody Person updPerson, @PathVariable("id") Long id) throws RecordNotFoundException {
+        updPerson.setId(id);
+        updPerson = personService.createOrUpdatePerson(updPerson);
+        return new ResponseEntity<Person>(updPerson, new HttpHeaders(), HttpStatus.OK);
     }
 
     /**
