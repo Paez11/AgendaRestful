@@ -3,7 +3,6 @@ package _2DAM.restful.controller;
 import _2DAM.restful.exceptions.RecordNotFoundException;
 import _2DAM.restful.model.Contact;
 import _2DAM.restful.model.Person;
-import _2DAM.restful.repository.ContactRepository;
 import _2DAM.restful.services.ContactService;
 import _2DAM.restful.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,11 @@ import java.util.List;
 public class ContactController {
     ContactService contactService;
     PersonService personService;
-    private final ContactRepository contactRepository;
 
     @Autowired
-    public ContactController(ContactService contactService, PersonService personService,
-                             ContactRepository contactRepository) {
+    public ContactController(ContactService contactService, PersonService personService) {
         this.contactService = contactService;
         this.personService = personService;
-        this.contactRepository = contactRepository;
     }
 
     @GetMapping("/contacts")
@@ -47,9 +43,8 @@ public class ContactController {
         return new ResponseEntity<>(created, new HttpHeaders(), HttpStatus.CREATED);
     }
     @PutMapping("/contacts/{id}")
-    public ResponseEntity<Contact> UpdateContact(@RequestBody Contact contact,@PathVariable(value = "id") Long id){
-        contact.setId(id);
-        Contact update = contactService.createOrUpdateContact(contact,id);
+    public ResponseEntity<Contact> UpdateContact(@PathVariable(value = "id") Long id){
+        Contact update = contactService.updateContact(id);
         return new ResponseEntity<>(update, new HttpHeaders(), HttpStatus.OK);
     }
 
