@@ -47,29 +47,18 @@ public class ContactService {
      * @return Contact
      */
     public Contact createOrUpdateContact(Contact contact,long id){
-        Person person = personService.getPersonById(id);
-        if (contact.getId()!=null && person!=null){
+        if (contact.getId()!=null){
             Optional<Contact> c = contactRepository.findById(contact.getId());
             if (c.isPresent()){
-                contact.setPerson(person);
                 contact = contactRepository.save(contact);
             }else{
                 throw new RecordNotFoundException("No contact record exist for given id", contact);
             }
         }else{
+            Person person = personService.getPersonById(id);
             contact.setPerson(person);
             person.getContacts().add(contact);
             contact = contactRepository.save(contact);
-        }
-        return contact;
-    }
-
-    public Contact updateContact(Long id){
-        Contact contact = getContactById(id);
-        if (contact!=null){
-            contact = contactRepository.save(contact);
-        }else{
-            throw new RecordNotFoundException("No contact record exist for given id", id);
         }
         return contact;
     }

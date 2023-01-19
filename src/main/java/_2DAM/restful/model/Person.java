@@ -1,5 +1,8 @@
 package _2DAM.restful.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +22,7 @@ public class Person implements Serializable {
     private String name;
     @Column(name = "surname")
     private String surname;
+    @JsonManagedReference
     @OneToMany(mappedBy = "person", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
