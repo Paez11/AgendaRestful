@@ -46,10 +46,12 @@ public class ContactController {
         Contact created = contactService.createOrUpdateContact(contact,personId);
         return new ResponseEntity<>(created, new HttpHeaders(), HttpStatus.CREATED);
     }
-    @PutMapping("/contacts/{id}")
-    public ResponseEntity<Contact> UpdateContact(@RequestBody Contact contact,@PathVariable(value = "id") Long id){
+    @PutMapping("person/{pid}/contacts/{id}")
+    public ResponseEntity<Contact> UpdateContact(@RequestBody Contact contact,@PathVariable(value = "id") Long id,@PathVariable(value = "pid") Long personId){
         contact.setId(id);
-        Contact update = contactService.createOrUpdateContact(contact,id);
+        Person person = personService.getPersonById(personId);
+        contact.setPerson(person);
+        Contact update = contactService.createOrUpdateContact(contact,personId);
         return new ResponseEntity<>(update, new HttpHeaders(), HttpStatus.OK);
     }
 
